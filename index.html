@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Durable Task Scheduler | Microsoft Azure</title>
+  <meta name="description" content="Azure Durable Task Scheduler is a fully managed backend for durable execution. Build reliable, stateful orchestrations that survive failures.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M12 3h9l-9 26H3z' fill='%230078d4'/%3E%3Cpath d='M19 12l10 17H14z' fill='%2350e6ff'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="noise" aria-hidden="true"></canvas>
+  <div id="vignette" aria-hidden="true"></div>
+  <div id="eyes" aria-hidden="true"></div>
+  <div id="flicker" aria-hidden="true"></div>
+  <div id="replay-banner" aria-hidden="true">⟲ Replaying orchestration history… event <span id="replay-n">1</span> of ∞</div>
+
+  <header class="ms-bar">
+    <span class="ms-logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    <span class="ms-word">Microsoft</span>
+    <span class="sep">|</span>
+    <span class="azure-word" data-at="0.52" data-alt="Abyss">Azure</span>
+    <nav class="ms-nav">
+      <a href="#overview">Explore</a>
+      <a href="#products" data-at="0.45" data-alt="Products (1 waiting)">Products</a>
+      <a href="#pricing" data-at="0.56" data-alt="Price">Pricing</a>
+      <a href="#durable">Docs</a>
+    </nav>
+    <div class="ms-right">
+      <a href="#pricing" class="free" data-at="0.60" data-alt="Free forever. You can't leave.">Try Azure for free</a>
+      <span class="avatar" aria-hidden="true">👤</span>
+    </div>
+  </header>
+
+  <div class="crumbs">
+    <span>Azure</span> › <span>Products</span> › <span>Containers &amp; serverless</span> › <b id="crumb-last">Durable Task Scheduler</b>
+  </div>
+
+  <main>
+    <section class="hero" id="overview">
+      <div class="hero-text">
+        <p class="tag">Generally available</p>
+        <h1 id="hero-title">Azure Durable Task Scheduler</h1>
+        <p class="lead" id="hero-lead">A fully managed backend for durable execution. Write orchestrations as ordinary code, and let Azure checkpoint every step so your workflows survive restarts, crashes, and scale events.</p>
+        <div class="cta">
+          <a class="btn primary" href="#pricing">Start free</a>
+          <a class="btn" href="#durable">See documentation</a>
+        </div>
+      </div>
+      <div class="window code-window">
+        <div class="window-bar">
+          <span class="tab active">HelloCities.cs</span>
+          <span class="tab">Program.cs</span>
+        </div>
+        <pre><code id="typed"></code><span class="caret"></span></pre>
+      </div>
+    </section>
+
+    <section class="pills" id="products">
+      <div class="pill"><b>99.9%</b><span>SLA on the managed backend</span></div>
+      <div class="pill"><b>.NET · Python · Java · JS</b><span>Durable Task SDKs and Durable Functions</span></div>
+      <div class="pill"><b data-at="0.20" data-alt="Never">Zero</b><span data-at="0.20" data-alt="lost state. none of it is ever lost.">storage accounts to manage</span></div>
+      <div class="pill"><b>Built-in</b><span data-at="0.24" data-alt="dashboard. it can see your dashboard.">monitoring dashboard</span></div>
+    </section>
+
+    <section class="feature" id="durable">
+      <h2>Durable execution, explained.</h2>
+      <p class="sub">Every time an orchestration awaits a task, the scheduler records an event. If the process dies, the orchestration replays its history and continues exactly where it left off.</p>
+      <div class="split">
+        <ul class="ticks">
+          <li data-at="0.14" data-alt="Your progress is checkpointed. Your scroll position is checkpointed.">Your progress is checkpointed after every await.</li>
+          <li data-at="0.17" data-alt="Failures are retried automatically. Forever. Even when they ask you to stop.">Failures are retried automatically with backoff.</li>
+          <li data-at="0.21" data-alt="Nothing is ever lost. Nothing is ever allowed to leave.">State is stored durably — nothing is lost.</li>
+        </ul>
+        <div class="window history">
+          <div class="window-bar">
+            <span class="tab active">Orchestration history · <span id="hist-id">visit-</span></span>
+          </div>
+          <table>
+            <thead><tr><th>#</th><th>Timestamp</th><th>EventType</th><th>Name</th></tr></thead>
+            <tbody id="hist"></tbody>
+          </table>
+        </div>
+      </div>
+      <p class="note" id="hist-note">This table is a live demo of event sourcing.</p>
+    </section>
+
+    <section class="feature" id="patterns">
+      <h2>Patterns you already know.</h2>
+      <div class="cards four">
+        <div class="card"><div class="ico">⛓</div><h3>Function chaining</h3><p data-at="0.27" data-alt="Each step calls the next. The last step calls you.">Run activities in sequence and pass outputs along.</p></div>
+        <div class="card"><div class="ico">⑃</div><h3>Fan-out / fan-in</h3><p data-at="0.29" data-alt="Fan out to thousands of workers. Not all of them come back.">Run activities in parallel and aggregate the results.</p></div>
+        <div class="card"><div class="ico">✋</div><h3>Human interaction</h3><p data-at="0.31" data-alt="WaitForExternalEvent(&quot;you&quot;). It has been waiting a long time.">Wait for an approval with a durable timeout.</p></div>
+        <div class="card"><div class="ico">∞</div><h3>Eternal orchestrations</h3><p data-at="0.33" data-alt="ContinueAsNew. ContinueAsNew. ContinueAsNew. It never, ever ends.">Loop forever with ContinueAsNew to keep history small.</p></div>
+      </div>
+    </section>
+
+    <section class="feature" id="determinism">
+      <div class="callout">
+        <b>⚠ Important</b>
+        <p data-at="0.36" data-alt="Orchestrator code must be deterministic. You are not. We've been measuring.">Orchestrator code must be deterministic. Don't use DateTime.Now, random numbers, or I/O directly inside an orchestrator.</p>
+        <p class="late" id="det-late"></p>
+      </div>
+    </section>
+
+    <section class="feature" id="dashboard">
+      <h2 data-at="0.44" data-alt="Monitor everything. Everything monitors back.">Monitor everything from the dashboard.</h2>
+      <p class="sub">Filter instances, inspect history, and terminate, suspend, or purge orchestrations with one click.</p>
+      <div class="window dash">
+        <div class="window-bar">
+          <span class="tab active">Durable Task Scheduler dashboard</span>
+          <span class="hub">Task hub: <b id="hub-name">default</b></span>
+        </div>
+        <div class="table-wrap">
+          <table id="instances">
+            <thead><tr><th>Instance ID</th><th>Name</th><th>Status</th><th>Created</th><th></th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <p class="dash-msg" id="dash-msg"></p>
+      </div>
+    </section>
+
+    <section class="feature" id="timer">
+      <h2>Durable timers that outlive your servers.</h2>
+      <p class="sub">Sleep for minutes, days, or months without holding a thread.</p>
+      <div class="window timer-window">
+        <pre id="timer-code"><span class="k">await</span> context.<span class="f">CreateTimer</span>(context.CurrentUtcDateTime.<span class="f">AddDays</span>(<span class="n">7</span>), CancellationToken.None);</pre>
+        <div class="countdown" id="countdown">6d 23:59:59</div>
+        <p class="countdown-label" id="countdown-label">until the next scheduled reminder</p>
+      </div>
+    </section>
+
+    <section class="feature" id="entities">
+      <h2>Durable Entities keep state for you.</h2>
+      <div class="entity">
+        <div>
+          <code id="entity-id">@counter@scrolls</code>
+          <div class="entity-val" id="entity-val">0</div>
+          <p id="entity-note">Entity operations are serialized and durable.</p>
+        </div>
+        <pre class="entity-state" id="entity-state">{ }</pre>
+      </div>
+    </section>
+
+    <section class="feature" id="pricing">
+      <h2>Pricing</h2>
+      <div class="cards three">
+        <div class="card"><h3>Consumption</h3><p class="price">$0.00 <small>/ million actions</small></p><p data-at="0.63" data-alt="The first million are free. After that we take something else.">Pay only for what you use.</p></div>
+        <div class="card"><h3>Dedicated</h3><p class="price">1 CU</p><p data-at="0.64" data-alt="1 capacity unit = 1 soul.">Predictable throughput for production.</p></div>
+        <div class="card"><h3 data-at="0.65" data-alt="Eternal">Emulator</h3><p class="price">Free</p><p data-at="0.65" data-alt="docker run you. It's already running.">Run locally with docker run.</p></div>
+      </div>
+    </section>
+
+    <section class="basement" id="basement">
+      <div class="drips" aria-hidden="true"></div>
+      <p class="tag red">Task hub: basement</p>
+      <h2 class="zalgo" data-zalgo="every orchestration you ever started is still down here">every orchestration you ever started is still down here</h2>
+      <p class="whisper">they never completed. they were never allowed to.</p>
+      <div class="graves" id="graves"></div>
+      <div class="scratch">
+        <p>ContinueAsNew ContinueAsNew ContinueAsNew ContinueAsNew ContinueAsNew</p>
+        <p>i only wanted to send an approval email</p>
+        <p>retry 10,482 of ∞</p>
+        <p>await context.WaitForExternalEvent&lt;Soul&gt;("you");</p>
+        <p>terminate me terminate me terminate me terminate me terminate me</p>
+      </div>
+      <p class="you-are" id="you-are"></p>
+    </section>
+
+    <section class="hallway" id="hallway">
+      <div class="hall-sticky">
+        <div class="corridor" aria-hidden="true"></div>
+        <p class="hall-text" id="hall-text"></p>
+      </div>
+    </section>
+
+    <section class="end" id="end">
+      <p class="end-small">OrchestratorCompleted? no.</p>
+    </section>
+  </main>
+
+  <div id="scare" aria-hidden="true">
+    <svg viewBox="0 0 400 520" class="face">
+      <defs>
+        <radialGradient id="skin" cx="50%" cy="36%" r="64%">
+          <stop offset="0" stop-color="#dfe6e9"/>
+          <stop offset="0.45" stop-color="#8b989c"/>
+          <stop offset="0.8" stop-color="#1d2426"/>
+          <stop offset="1" stop-color="#000"/>
+        </radialGradient>
+        <filter id="warp">
+          <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" seed="4" result="n"/>
+          <feDisplacementMap in="SourceGraphic" in2="n" scale="30" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+      </defs>
+      <g filter="url(#warp)">
+        <path d="M40 0 C20 120 30 300 60 520 L340 520 C370 300 380 120 360 0Z" fill="#050505"/>
+        <ellipse cx="200" cy="255" rx="140" ry="215" fill="url(#skin)"/>
+        <path d="M60 40 C110 -10 290 -10 340 40 C330 120 300 90 280 170 C250 60 150 60 120 170 C100 90 70 120 60 40Z" fill="#050505"/>
+        <ellipse cx="140" cy="215" rx="36" ry="50" fill="#000"/>
+        <ellipse cx="260" cy="215" rx="36" ry="50" fill="#000"/>
+        <circle cx="146" cy="222" r="4" fill="#e8f7ff"/>
+        <circle cx="254" cy="222" r="4" fill="#e8f7ff"/>
+        <path d="M140 262 L130 330 M260 262 L270 330" stroke="#3a0000" stroke-width="4"/>
+        <ellipse cx="200" cy="385" rx="62" ry="92" fill="#030000"/>
+        <path d="M150 340 L160 362 L172 344 L184 366 L196 346 L208 366 L220 344 L232 364 L244 342 L252 356" fill="none" stroke="#c9c2b0" stroke-width="3.5"/>
+      </g>
+    </svg>
+  </div>
+
+  <div id="after" aria-live="polite">
+    <pre id="after-term"></pre>
+  </div>
+
+  <div id="toast" role="dialog" aria-label="Audio">
+    <span>🔊 Enable <b>audio narration</b> for this product tour?</span>
+    <button id="enable-sound">Enable</button>
+    <button id="dismiss-sound" aria-label="Dismiss">✕</button>
+  </div>
+
+  <footer class="foot">
+    <p>An unofficial, fictional horror parody of a cloud product page. Not affiliated with or endorsed by Microsoft. Contains flicker, sudden imagery and loud sound.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
